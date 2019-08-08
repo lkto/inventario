@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>{% block title %}Admin{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta charset="UTF-8">
+        {% block stylesheets %}
+
+            <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}" />
+            <link rel="stylesheet" href="{{ asset('assets/css/bootstrap-responsive.min.css') }}" />
+            <link rel="stylesheet" href="{{ asset('assets/css/fullcalendar.css') }}" />
+            <link rel="stylesheet" href="{{ asset('assets/css/matrix-style.css') }}" />
+            <link rel="stylesheet" href="{{ asset('assets/css/matrix-media.css') }}" />
+            <link href="{{ asset('assets/font-awesome/css/font-awesome.css') }}" rel="stylesheet" />
+            <link rel="stylesheet" href="{{ asset('assets/css/jquery.gritter.css') }}" />
+            <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+
+        {% endblock %}
+        <link rel="shortcut icon" href="{{ asset('favicon/favicon.ico') }}">
+    </head>
+    <body>
+
+        <!--Header-part-->
+        <div id="header">
+            <h1><a href="dashboard.html">DJK</a></h1>
+        </div>
+        <!--close-Header-part-->
+
+        <!--top-Header-menu-->
+        <div id="user-nav" class="navbar navbar-inverse">
+            <ul class="nav">
+                <li  class="dropdown" id="profile-messages" ><a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle"><i class="icon icon-user"></i>  <span class="text">Welcome User</span><b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#"><i class="icon-user"></i> My Profile</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
+                        <li class="divider"></li>
+                        <li><a href="login.html"><i class="icon-key"></i> Log Out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!--close-top-Header-menu-->
+
+        <!--sidebar-menu-->
+        <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Inicio</a>
+            <ul>
+                <li class="active"><a href="index.html"><i class="icon icon-home"></i> <span>Inicio</span></a> </li>
+                <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Gestion de personas</span> <span class="label label-important">2</span></a>
+                    <ul>
+                        <li><a href="form-common.html">Usuarios</a></li>
+                        <li><a href="form-validation.html">Clientes</a></li>
+                    </ul>
+                </li>
+                <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Gestion de productos</span> <span class="label label-important">2</span></a>
+                    <ul>
+                        <li><a href="form-common.html">Categoria</a></li>
+                        <li><a href="form-validation.html">Productos</a></li>
+                    </ul>
+                </li>
+                <li> <a href="widgets.html"><i class="icon icon-inbox"></i> <span>Ventas</span></a> </li>
+                <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Reportes</span> <span class="label label-important">3</span></a>
+                    <ul>
+                        <li><a href="form-common.html">Basic Form</a></li>
+                        <li><a href="form-validation.html">Form with Validation</a></li>
+                        <li><a href="form-wizard.html">Form with Wizard</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!--sidebar-menu-->
+
+        <!--main-container-part-->
+        <div id="content">
+
+        {% block body %}
+        {% endblock %}
+        </div>
+
+
+        {% block footer %}
+            <div class="row-fluid">
+                <div id="footer" class="span12"> Ember Bejarano <a href="http://ember.sigtics.org/">ember.sigtics.org/</a> </div>
+            </div>
+        {% endblock %}
+
+        {% block javascripts %}
+
+            <script src="{{ asset('assets/js/excanvas.min.js') }}"></script>
+            <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+            <script src="{{ asset('assets/js/jquery.ui.custom.js') }}"></script>
+            <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('assets/js/jquery.flot.min.js') }}"></script>
+            <script src="{{ asset('assets/js/jquery.flot.resize.min.js') }}"></script>
+            <script src="{{ asset('assets/js/jquery.peity.min.js') }}"></script>
+            <script src="{{ asset('assets/js/fullcalendar.min.js') }}"></script>
+            <script src="{{ asset('assets/js/matrix.js') }}"></script>
+            <script src="{{ asset('assets/js/matrix.dashboard.js') }}"></script>
+            <script src="{{ asset('assets/js/jquery.gritter.min.js') }}"></script>
+            <script src="{{ asset('assets/js/matrix.interface.js') }}"></script>
+            <script src="{{ asset('assets/js/matrix.chat.js') }}"></script>
+            <script src="{{ asset('assets/js/jquery.validate.js') }}"></script>
+            <script src="{{ asset('assets/js/matrix.form_validation.js') }}"></script>
+            <script src="{{ asset('assets/js/jquery.wizard.js') }}"></script>
+            <script src="{{ asset('assets/js/jquery.uniform.js') }}"></script>
+            <script src="{{ asset('assets/js/select2.min.js') }}"></script>
+            <script src="{{ asset('assets/js/matrix.popover.js') }}"></script>
+            <script src="{{ asset('assets/js/jquery.dataTables.min.js') }}"></script>
+            <script src="{{ asset('assets/js/matrix.tables.js') }}"></script>
+
+
+        {% endblock %}
+    </body>
+</html>
