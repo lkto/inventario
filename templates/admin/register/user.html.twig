@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="#" class="tip-bottom" data-original-title="Go to Home"><i class="icon-home"></i> Gestion de personas / Usuarios / agregar</a> </div>
+        <h1>Registrar usuarios</h1>
+    </div>
+    <hr>
+    <div class="container-fluid">
+
+        <div class="row-fluid">
+            <br>
+            <div class="widget-box">
+                <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                    <h5>Personal-info</h5>
+                </div>
+                <div class="widget-content nopadding">
+
+                    {% if form.vars.errors is not empty %}
+                        <div class="alert alert-danger">
+                            <ul class="mg-b-0">
+                                {% for error in form.vars.errors %}
+                                    <li >
+                                        {{ error.message }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <form action="{{ path('register_user')  }}" method="post" class="form-horizontal">
+                        {{ form_widget(form._token) }}
+                        <div class="control-group">
+                            <label class="control-label">Correo electronico</label>
+                            <div class="controls">
+                                {{ form_widget(form.email, {'attr': {'class': 'span11'}}) }}
+                                {#<input type="password"  class="span11" placeholder="Enter Password"  />#}
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Contraseña</label>
+                            <div class="controls">
+                                {{ form_widget(form.plainPassword) }}
+                                {#<input type="password"  class="span11" placeholder="Enter Password"  />#}
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                            <a href="{{ path('admin_user_list') }}" class="btn btn-primary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock  %}
+
+{#{% block myScripts %}#}
+    {#<script>#}
+        {#$( "label.required" ).remove();#}
+        {#$("#fos_user_registration_form_plainPassword_first").addClass('span11');#}
+        {#$("#fos_user_registration_form_plainPassword_second").addClass('span11');#}
+        {#$("#fos_user_registration_form_plainPassword.div").add("<br>");#}
+    {#</script>#}
+{#{% endblock %}#}

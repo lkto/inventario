@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="#" class="tip-bottom" data-original-title="Go to Home"><i class="icon-home"></i> Gestion de personas / Clientes / modificar</a> </div>
+        <h1>Modificar clientes</h1>
+
+    </div>
+    <hr>
+    <div class="container-fluid">
+
+        <div class="row-fluid">
+            <br>
+            <div class="widget-box">
+                <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                    <h5>Personal-info</h5>
+                </div>
+                <div class="widget-content nopadding">
+
+                    {% if form.vars.errors is not empty %}
+                        <div class="alert alert-danger">
+                            <ul class="mg-b-0">
+                                {% for error in form.vars.errors %}
+                                    <li >
+                                        {{ error.message }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <form action="{{ path('admin_client_edit', {id: client.id})  }}" method="post" class="form-horizontal">
+                        {{ form_widget(form._token) }}
+                        <div class="control-group">
+                            <label class="control-label">Documento</label>
+                            <div class="controls">
+                                {{ form_widget(form.identify, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Nombres</label>
+                            <div class="controls">
+                                {{ form_widget(form.firstName, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Apellidos</label>
+                            <div class="controls">
+                                {{ form_widget(form.lastName, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Checkboxes</label>
+                            <div class="controls">
+                                <label>
+                                    {{ form_widget(form.enabled) }}
+                                    Estado del usuario
+                                </label>
+                            </div>
+                        </div>
+
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                            <a href="{{ path('admin_client_list') }}" class="btn btn-primary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock  %}
+

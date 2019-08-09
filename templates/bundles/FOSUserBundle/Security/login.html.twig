@@ -1,0 +1,8 @@
+{% extends "base_login.html.twig" %}
+
+{% block body %}
+    <div id="loginbox">
+        {{ include('@FOSUser/Security/login_content.html.twig') }}
+    </div>
+
+{% endblock body %}

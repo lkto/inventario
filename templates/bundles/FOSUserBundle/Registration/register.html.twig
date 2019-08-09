@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="#" class="tip-bottom" data-original-title="Go to Home"><i class="icon-home"></i> Gestion de personas / Usuarios</a> </div>
+        <h1>Registrar usuarios</h1>
+    </div>
+
+<div class="container-fluid">
+    <hr>
+    <div class="row-fluid">
+        <br>
+        <div class="widget-box">
+            <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                <h5>Personal-info</h5>
+            </div>
+            <div class="widget-content nopadding">
+
+                {% include "@FOSUser/Registration/register_content.html.twig" %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock  %}
+
+{% block myScripts %}
+    <script>
+        $( "label.required" ).remove();
+        $("#fos_user_registration_form_plainPassword_first").addClass('span11');
+        $("#fos_user_registration_form_plainPassword_second").addClass('span11');
+        $("#fos_user_registration_form_plainPassword.div").add("<br>");
+    </script>
+{% endblock %}

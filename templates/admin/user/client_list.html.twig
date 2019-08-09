@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="#" class="tip-bottom" data-original-title="Go to Home"><i class="icon-home"></i> Gestion de personas / Clientes</a> </div>
+        <h1>Lista de clientes</h1>
+    </div>
+    <hr>
+    <br>
+    <div class="container-fluid">
+
+        <div class="row-fluid">
+            <div class="span12">
+                {% for flash_message in app.session.flashbag.get('notice') %}
+                    <div class="alert alert-success alert-block"> <a class="close" data-dismiss="alert" href="#">×</a>
+                        <h4 class="alert-heading">Éxito!</h4>
+                         {{ flash_message }}
+                    </div>
+                {% endfor %}
+                <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+                        <h5>Data table</h5>
+                        <a class="btn btn-mini btn-success" href="{{ path('admin_client_add') }}"> <span class="icon">Agregar <i class="icon-user"></i></span></a>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <table class="table table-bordered data-table">
+                            <thead>
+                            <tr>
+                                <th>Documento</th>
+                                <th>Nombres y Apellidos</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for client in client %}
+                                <tr class="gradeX">
+                                    <td>{{ client.identify }}  </td>
+                                    <td>{{ client.firstName }}  {{ client.lastName }} </td>
+                                    <td class="taskStatus">
+                                        {% if client.enabled %}
+                                            <span class="in-progress">Activo</span>
+                                        {% else %}
+                                            <span class="pending">Inactivo</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="taskOptions">
+                                        {% if client.enabled %}
+                                            <a class="btn btn-danger" href="{{ path('admin_client_state', {id: client.id}) }}">Deshabilitar</a>
+                                        {% else %}
+                                            <a class="btn btn-success" href="{{ path('admin_client_state', {id: client.id}) }}">Habilitar</a>
+                                        {% endif %}
+
+                                        <a class="btn btn-info" href="{{ path('admin_client_edit', {id: client.id}) }}">Modificar</a>
+
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

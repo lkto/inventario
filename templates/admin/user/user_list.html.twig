@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="#" class="tip-bottom" data-original-title="Go to Home"><i class="icon-home"></i> Gestion de personas / Usuarios</a> </div>
+        <h1>Lista de usuarios</h1>
+    </div>
+    <hr>
+    <br>
+    <div class="container-fluid">
+
+        <div class="row-fluid">
+            <div class="span12">
+                {% for flash_message in app.session.flashbag.get('notice') %}
+                    <div class="alert alert-success alert-block"> <a class="close" data-dismiss="alert" href="#">×</a>
+                        <h4 class="alert-heading">Éxito!</h4>
+                        {{ flash_message }}
+                    </div>
+                {% endfor %}
+                <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+                        <h5>Data table</h5>
+                        <a class="btn btn-mini btn-success" href="{{ path('register_user') }}"> <span class="icon">Agregar <i class="icon-user"></i></span></a>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <table class="table table-bordered data-table">
+                            <thead>
+                            <tr>
+                                <th>Correo electronico</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for user in user %}
+                                <tr class="gradeX">
+                                    <td>{{ user.email }}</td>
+                                    <td class="taskStatus">
+                                        {% if user.enabled %}
+                                            <span class="in-progress">Activo</span>
+                                        {% else %}
+                                            <span class="pending">Inactivo</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="taskOptions">
+                                        {% if user.enabled %}
+                                            <a class="btn btn-danger" href="{{ path('admin_user_state', {id: user.id}) }}">Deshabilitar</a>
+                                        {% else %}
+                                            <a class="btn btn-success" href="{{ path('admin_user_state', {id: user.id}) }}">Habilitar</a>
+                                        {% endif %}
+
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
