@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div id="content-header">
+    <div id="breadcrumb"> <a href="#" class="tip-bottom" data-original-title="Go to Home"><i class="icon-home"></i> Gestion de productos / Detalle</a> </div>
+    <h1>Detalle de venta | Factura N° {{ sale.code }} </h1>
+</div>
+<hr>
+<br>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span6">
+            <div class="widget-box">
+                <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+                    <h5>Usuario</h5>
+                </div>
+                <div class="widget-content nopadding">
+
+                     <p style="margin-left: 40px;margin-top: 10px;"> {{ sale.user.email  }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="span6">
+            <div class="widget-box">
+                <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+                    <h5>Cliente</h5>
+                </div>
+                <div class="widget-content nopadding">
+                    <div style="margin-left: 40px;margin-top: 10px;">
+                        <p>{{ sale.client.firstName }} {{ sale.client.lastName }} | {{ sale.client.phone }} | {{ sale.client.direction }}   </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="span12" style="margin-left: 0px;">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Codigo del producto</th>
+                    <th>Nombre</th>
+                    <th>Valor Unitario</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody >
+                {% set Vtotal = 0 %}
+                {% for detail in sale.saleDetails %}
+
+                    <tr>
+                        <td>{{ detail.product.category.code }} - {{ detail.product.code }}</td>
+                        <td>{{ detail.product.name }}</td>
+                        <td>{{ detail.valueUnit }}</td>
+                        <td>{{ detail.count }}</td>
+                        {% set total = detail.count * detail.valueUnit %}
+                        <td> {{ total }}</td>
+                    </tr>
+                    {% set Vtotal = total + Vtotal %}
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                <tr >
+                    <td colspan="5" style="text-align: right;"><h4>Total : <span id="total">{{ Vtotal }}</span></h4></td>
+                </tr>
+                <tr >
+                    <td colspan="5" style="text-align: right;">
+                        <a target="_blank" href="{{ path('admin_sale_add')}}" class="btn btn-warning">Agregar Venta</a>
+                        <a href="{{ path('admin_sale_list' ) }}" class="btn btn-success">Lista de ventas</a>
+                        <a  href="{{ path('admin_sale_print', {id: sale.id}) }}" class="btn btn-primary">Imprimir factura</a>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

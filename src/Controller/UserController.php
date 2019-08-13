@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: EBEJARANO
- * Date: 9/08/2019
- * Time: 1:56 PM
+ * Date: 10/08/2019
+ * Time: 8:42 AM
  */
 
 namespace App\Controller;
@@ -13,26 +13,17 @@ use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\FOSUserEvents;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Routing\Annotation\Route;
 
-
-
-class RegisterController extends Controller
+/**
+ * @Route("/admin/people/user")
+ */
+class UserController extends Controller
 {
     /**
-     * @Route("/admin/register/")
-     */
-    public function return404ForRegisterRoute()
-    {
-        throw $this->createNotFoundException();
-    }
-
-    /**
      * @Route(
-     *     "/admin/register/user/",
+     *     "/add",
      *     name="register_user",
      *     )
      * @param Request $request
@@ -72,10 +63,38 @@ class RegisterController extends Controller
             }
         }
 
-        return $this->render('admin/register/user.html.twig', [
+        return $this->render('admin/people/user/user_add.html.twig', [
             "user" => $user,
             "form" => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/list", name="admin_user_list")
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function userList()
+    {
+        $user = $this->getDoctrine()->getRepository(User::class)->findAll();
+        return  $this->render('admin/people/user/user_list.html.twig', [
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * @Route("/state/{id}", name="admin_user_state")
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function userState($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['id' => $id]);
+        $user->setEnabled(!$user->isEnabled());
+        $em->persist($user);
+        $em->flush();
+        return  $this->redirectToRoute('admin_user_list');
     }
 
 }

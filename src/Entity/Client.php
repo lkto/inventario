@@ -49,6 +49,18 @@ class Client
     protected $identify;
 
     /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $direction;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
+    protected $phone;
+
+    /**
      * @var boolean
      * @ORM\Column(type="boolean")
      */
@@ -163,5 +175,39 @@ class Client
     {
         $this->enabled = $enabled;
     }
+
+    /**
+     * @return string
+     */
+    public function getDirection(): string
+    {
+        return $this->direction;
+    }
+
+    /**
+     * @param string $direction
+     */
+    public function setDirection(string $direction)
+    {
+        $this->direction = $direction;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPhone(): int
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param int $phone
+     */
+    public function setPhone(int $phone)
+    {
+        $this->phone = $phone;
+    }
+
+
 
 }

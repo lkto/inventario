@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\SaleRepository")
  * @ORM\Table(name="sales")
  */
 class Sales
@@ -25,9 +25,10 @@ class Sales
     protected $id;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="code", type="string")
+     * @ORM\Column(name="code", type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      *
      * @Assert\NotBlank()
      */
@@ -66,7 +67,7 @@ class Sales
     /**
      * @return string
      */
-    public function getCode(): string
+    public function getCode()
     {
         return $this->code;
     }
@@ -138,6 +139,7 @@ class Sales
 
         return $this;
     }
+
 
 
 

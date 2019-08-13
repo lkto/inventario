@@ -19,26 +19,24 @@
                         <table class="table table-striped table-bordered">
                             <thead>
                             <tr>
+                                <th>Codigo</th>
                                 <th>Nombre</th>
                                 <th>Estado</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td class="taskDesc"><i class="icon-info-sign"></i> Making The New Suit</td>
-                                <td class="taskStatus"><span class="pending">Agotado</span></td>
+                            {% for product in productDisable %}
+                                <tr>
+                                    <td class="taskDesc"><i class="icon-info-sign"></i> {{ product.code }}</td>
+                                    <td class="taskDesc"><i class="icon-info-sign"></i> {{ product.name }}</td>
+                                    <td class="taskStatus"><span class="pending">Agotado</span></td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="3" style="text-align: center" class="taskDesc"><i class="icon-info-sign"></i> No tienes productos agotados</td>
+                                </tr>
+                            {% endfor %}
 
-                            </tr>
-                            <tr>
-                                <td class="taskDesc"><i class="icon-plus-sign"></i> Luanch My New Site</td>
-                                <td class="taskStatus"><span class="pending">Agotado</span></td>
-
-                            </tr>
-                            <tr>
-                                <td class="taskDesc"><i class="icon-ok-sign"></i> Maruti Excellant Theme</td>
-                                <td class="taskStatus"><span class="pending">Agotado</span></td>
-
-                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -54,31 +52,33 @@
                         <table class="table table-striped table-bordered">
                             <thead>
                             <tr>
+                                <th>Codigo</th>
                                 <th>Nombre</th>
                                 <th>Estado</th>
                                 <th>Cantidad</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td class="taskDesc"><i class="icon-info-sign"></i> Making The New Suit</td>
-                                <td class="taskStatus"><span class="in-progress">Por acabarse</span></td>
-                                <td class="taskOptions">8</td>
-                            </tr>
-                            <tr>
-                                <td class="taskDesc"><i class="icon-plus-sign"></i> Luanch My New Site</td>
-                                <td class="taskStatus"><span class="in-progress">Por acabarse</span></td>
-                                <td class="taskOptions">7</td>
-                            </tr>
-                            <tr>
-                                <td class="taskDesc"><i class="icon-ok-sign"></i> Maruti Excellant Theme</td>
-                                <td class="taskStatus"><span class="in-progress">Por acabarse</span></td>
-                                <td class="taskOptions">5</td>
-                            </tr>
+                            {% for product in productNoStock %}
+                                <tr>
+                                    <td class="taskDesc"><i class="icon-info-sign"></i> {{ product.code }}</td>
+                                    <td class="taskDesc"><i class="icon-info-sign"></i> {{ product.name }}</td>
+                                    <td class="taskStatus"><span class="in-progress">Por acabarse</span></td>
+                                    <td class="taskOptions">{{ product.stock }}</td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="4" style="text-align: center" class="taskDesc"><i class="icon-info-sign"></i> No tienes productos por acabarse</td>
+                                </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>
                 </div>
+            </div>
+
+            <div class="span12">
+                <a class="btn btn-success" href="{{ path('admin_home_pdf') }}">Generar pdf</a>
             </div>
         </div>
 

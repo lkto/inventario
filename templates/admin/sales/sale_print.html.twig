@@ -1,0 +1,116 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Factura numero {{ sale.code }}</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="margin: 0 auto; width: 60%; " >
+        <div style="width: 50%;"><img style="margin-left: 170px;" width="50%" src="{{ absolute_url(asset('assets/img/logo_final.png')) }}" alt=""></div>
+        <div style="width: 50%; float: right;    margin-top: -190px;">
+            <div style="width: 70%; text-align: center">
+                <p>Autorizació Numeración de facturación : 18762012948271 Fecha: 2019-02-18. Del 1 al 200 Autoriza vigencia 18 meses</p>
+                <h4>Factura de venta N° {{ sale.code }}</h4>
+            </div>
+
+        </div>
+        <hr style="width: 90%;">
+        <div style="width: 100%">
+            <div style="width: 90%; margin: 0 auto; text-align: center">
+                <div style="float: left; width: 50%">
+                    <p>Señor(es) : <b> {{ sale.client.firstName }} {{ sale.client.lastName }} </b> </p>
+                </div>
+                <div style="float: left; width: 50%">
+                    <p>Identificacion: <b>{{ sale.client.identify }}</b></p>
+                </div>
+
+                <div style="width: 90%; margin: 0 auto">
+                    <div style="float: left; width: 33%">
+                        <p>Direccion : <b> {{ sale.client.direction }} </b> </p>
+                    </div>
+                    <div style="float: left; width: 33%">
+                        <p>Telefono: <b>{{ sale.client.phone }}</b></p>
+                    </div>
+
+                    <div style="float: left; width: 33%">
+                        <p>Forma de pago: <b>__________________</b></p>
+                    </div>
+                </div>
+
+                <div style="width: 90%; margin: 0 auto">
+                    <table style="border: solid black 1px; width: 100%">
+                        <thead>
+                            <tr>
+                                <th>Cantidad</th>
+                                <th>Descripción</th>
+                                <th>Valor Unitario</th>
+                                <th>Valor Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% set Vtotal = 0 %}
+                            {% for detail in sale.saleDetails %}
+                                <tr>
+                                    <td>{{ detail.count }}</td>
+                                    <td>{{ detail.product.name }}</td>
+                                    <td>{{ detail.valueUnit }}</td>
+                                    {% set total = detail.count * detail.valueUnit %}
+                                    <td>{{ total }}</td>
+                                </tr>
+                                {% set Vtotal = total + Vtotal %}
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td >
+                                   <b> Total : {{ Vtotal }} </b>
+                                </td>
+                            </tr>
+                        </tfoot>
+
+                    </table>
+                </div>
+
+            </div>
+            <br>
+            <br>
+            <hr style="width: 90%;">
+            <br>
+            <br>
+            <div style="width: 70%; margin: 0 auto; text-align: justify; margin-left: 270px;">
+                <div style="float: left; width: 50%">
+                    <p>Entrego  </p>
+                    <br>
+                    <br>
+                    __________________________
+                   <p>C.C.</p>
+                </div>
+                <div style="float: left; width: 50%">
+                    <p>Recibio </p>
+                    <br>
+                    <br>
+                    __________________________
+                    <p>C.C.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{#{{ dump(sale) }}#}
+</body>
+
+</html>

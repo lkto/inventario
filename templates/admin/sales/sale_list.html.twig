@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="#" class="tip-bottom" data-original-title="Go to Home"><i class="icon-home"></i> Gestion de productos / Ventas</a> </div>
+        <h1>Historial de ventas</h1>
+    </div>
+    <hr>
+    <br>
+    <div class="container-fluid">
+
+        <div class="row-fluid">
+            <div class="span12">
+                {% for flash_message in app.session.flashbag.get('notice') %}
+                    <div class="alert alert-success alert-block"> <a class="close" data-dismiss="alert" href="#">×</a>
+                        <h4 class="alert-heading">Éxito!</h4>
+                        {{ flash_message }}
+                    </div>
+                {% endfor %}
+
+                <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+                        <h5>Data table</h5>
+                        <a class="btn btn-mini btn-success" href="{{ path('admin_sale_add') }}"> <span class="icon">Agregar <i class="icon-user"></i></span></a>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <table class="table table-bordered data-table">
+                            <thead>
+                            <tr>
+                                <th>Codigo</th>
+                                <th>Vendido por</th>
+                                <th>Vendido a</th>
+                                <th>Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for sale in sale %}
+                                <tr class="gradeX">
+                                    <td> {{ product.code }} </td>
+                                    <td> {{ product.user.email }} </td>
+                                    <td> {{ product.client.firstName }} {{ product.client.lastName }}  </td>
+                                    <td class="taskOptions">
+                                        <a class="btn btn-info" href="{{ path('admin_product_edit', {id: product.id}) }}">Modificar</a>
+                                        <a class="btn btn-info" href="{{ path('admin_product_edit', {id: product.id}) }}">Ver</a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td style="text-align: center" colspan="4">No tienes ventas </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

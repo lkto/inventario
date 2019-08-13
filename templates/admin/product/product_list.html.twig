@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="#" class="tip-bottom" data-original-title="Go to Home"><i class="icon-home"></i> Gestion de productos / Productos</a> </div>
+        <h1>Lista de productos</h1>
+    </div>
+    <hr>
+    <br>
+    <div class="container-fluid">
+
+        <div class="row-fluid">
+            <div class="span12">
+                {% for flash_message in app.session.flashbag.get('notice') %}
+                    <div class="alert alert-success alert-block"> <a class="close" data-dismiss="alert" href="#">×</a>
+                        <h4 class="alert-heading">Éxito!</h4>
+                        {{ flash_message }}
+                    </div>
+                {% endfor %}
+
+                <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+                        <h5>Data table</h5>
+                        <a class="btn btn-mini btn-success" href="{{ path('admin_product_add') }}"> <span class="icon">Agregar <i class="icon-user"></i></span></a>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <table class="table table-bordered data-table">
+                            <thead>
+                            <tr>
+                                <th>Codigo</th>
+                                <th>Categoria</th>
+                                <th>Nombre</th>
+                                <th>Valor unitario</th>
+                                <th>Cantidad</th>
+                                <th>Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for product in product %}
+                                <tr class="gradeX">
+                                    <td> {{ product.code }} </td>
+                                    <td> {{ product.category.name }} </td>
+                                    <td> {{ product.name }} </td>
+                                    <td> {{ product.value }} </td>
+                                    <td> {{ product.stock }} </td>
+                                    <td class="taskOptions">
+                                        <a class="btn btn-info" href="{{ path('admin_product_edit', {id: product.id}) }}">Modificar</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  * @ORM\Table(name="product")
  */
 class Product
@@ -87,7 +87,7 @@ class Product
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
@@ -103,7 +103,7 @@ class Product
     /**
      * @return int
      */
-    public function getStock(): int
+    public function getStock()
     {
         return $this->stock;
     }
@@ -119,7 +119,7 @@ class Product
     /**
      * @return string
      */
-    public function getCode(): string
+    public function getCode()
     {
         return $this->code;
     }
@@ -151,7 +151,7 @@ class Product
     /**
      * @return int
      */
-    public function getValue(): int
+    public function getValue()
     {
         return $this->value;
     }

@@ -2,15 +2,20 @@
 
 {% block body %}
     <div id="content-header">
-        <div id="breadcrumb"> <a href="#" class="tip-bottom" data-original-title="Go to Home"><i class="icon-home"></i> Gestion de personas / Clientes / modificar</a> </div>
-        <h1>Modificar clientes</h1>
-
+        <div id="breadcrumb"> <a href="#" class="tip-bottom" data-original-title="Go to Home"><i class="icon-home"></i> Gestion de personas / Productos / Categoria / Editar</a> </div>
+        <h1>Editar categoria</h1>
     </div>
     <hr>
     <div class="container-fluid">
 
         <div class="row-fluid">
             <br>
+            {% for flash_message in app.session.flashbag.get('error') %}
+                <div class="alert alert-danger alert-block"> <a class="close" data-dismiss="alert" href="#">×</a>
+                    <h4 class="alert-heading">Error!</h4>
+                    {{ flash_message }}
+                </div>
+            {% endfor %}
             <div class="widget-box">
                 <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
                     <h5>Personal-info</h5>
@@ -29,43 +34,26 @@
                         </div>
                     {% endif %}
 
-                    <form action="{{ path('admin_client_edit', {id: client.id})  }}" method="post" class="form-horizontal">
+                    <form action="{{ path('admin_category_edit', { id :  category.id})  }}" method="post" class="form-horizontal">
                         {{ form_widget(form._token) }}
                         <div class="control-group">
-                            <label class="control-label">Documento</label>
+                            <label class="control-label">Codigo</label>
                             <div class="controls">
-                                {{ form_widget(form.identify, {'attr': {'class': 'span11'}}) }}
+                                {{ form_widget(form.code, {'attr': {'class': 'span11'}}) }}
                             </div>
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">Nombres</label>
+                            <label class="control-label">Nombre</label>
                             <div class="controls">
-                                {{ form_widget(form.firstName, {'attr': {'class': 'span11'}}) }}
-                            </div>
-                        </div>
-
-                        <div class="control-group">
-                            <label class="control-label">Apellidos</label>
-                            <div class="controls">
-                                {{ form_widget(form.lastName, {'attr': {'class': 'span11'}}) }}
-                            </div>
-                        </div>
-
-                        <div class="control-group">
-                            <label class="control-label">Checkboxes</label>
-                            <div class="controls">
-                                <label>
-                                    {{ form_widget(form.enabled) }}
-                                    Estado del usuario
-                                </label>
+                                {{ form_widget(form.name, {'attr': {'class': 'span11'}}) }}
                             </div>
                         </div>
 
 
                         <div class="form-actions">
                             <button type="submit" class="btn btn-success">Guardar</button>
-                            <a href="{{ path('admin_client_list') }}" class="btn btn-primary">Cancelar</a>
+                            <a href="{{ path('admin_category_list') }}" class="btn btn-primary">Cancelar</a>
                         </div>
                     </form>
                 </div>

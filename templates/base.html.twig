@@ -16,8 +16,10 @@
             <link rel="stylesheet" href="{{ asset('assets/css/fullcalendar.css') }}" />
             <link rel="stylesheet" href="{{ asset('assets/css/matrix-style.css') }}" />
             <link rel="stylesheet" href="{{ asset('assets/css/matrix-media.css') }}" />
+
             <link href="{{ asset('assets/font-awesome/css/font-awesome.css') }}" rel="stylesheet" />
             <link rel="stylesheet" href="{{ asset('assets/css/jquery.gritter.css') }}" />
+            <link rel="stylesheet" href="{{ asset('assets/css/select2.css') }}" />
             <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 
         {% endblock %}
@@ -52,11 +54,11 @@
                 </li>
                 <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Gestion de productos</span> <span class="label label-important">2</span></a>
                     <ul>
-                        <li><a href="form-common.html">Categoria</a></li>
-                        <li><a href="form-validation.html">Productos</a></li>
+                        <li><a href="{{ path('admin_category_list') }}">Categoria</a></li>
+                        <li><a href="{{ path('admin_product_list') }}">Productos</a></li>
                     </ul>
                 </li>
-                <li> <a href="widgets.html"><i class="icon icon-inbox"></i> <span>Ventas</span></a> </li>
+                <li> <a href="{{ path('admin_sale_list') }}"><i class="icon icon-inbox"></i> <span>Ventas</span></a> </li>
                 <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Reportes</span> <span class="label label-important">3</span></a>
                     <ul>
                         <li><a href="form-common.html">Basic Form</a></li>
@@ -88,8 +90,8 @@
             <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
             <script src="{{ asset('assets/js/jquery.ui.custom.js') }}"></script>
             <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-            <script src="{{ asset('assets/js/jquery.flot.min.js') }}"></script>
-            <script src="{{ asset('assets/js/jquery.flot.resize.min.js') }}"></script>
+            {#<script src="{{ asset('assets/js/jquery.flot.min.js') }}"></script>#}
+            {#<script src="{{ asset('assets/js/jquery.flot.resize.min.js') }}"></script>#}
             <script src="{{ asset('assets/js/jquery.peity.min.js') }}"></script>
             <script src="{{ asset('assets/js/fullcalendar.min.js') }}"></script>
             <script src="{{ asset('assets/js/matrix.js') }}"></script>

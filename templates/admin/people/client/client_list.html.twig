@@ -28,6 +28,8 @@
                             <tr>
                                 <th>Documento</th>
                                 <th>Nombres y Apellidos</th>
+                                <th>Direccion</th>
+                                <th>Telefono</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
@@ -37,6 +39,8 @@
                                 <tr class="gradeX">
                                     <td>{{ client.identify }}  </td>
                                     <td>{{ client.firstName }}  {{ client.lastName }} </td>
+                                    <td>{{ client.direction }}   </td>
+                                    <td>{{ client.phone }}   </td>
                                     <td class="taskStatus">
                                         {% if client.enabled %}
                                             <span class="in-progress">Activo</span>

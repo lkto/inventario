@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="#" class="tip-bottom" data-original-title="Go to Home"><i class="icon-home"></i> Gestion de personas / Productos /  Agregar</a> </div>
+        <h1>Registrar productos</h1>
+    </div>
+    <hr>
+    <div class="container-fluid">
+
+        <div class="row-fluid">
+
+            <br>
+            {% for flash_message in app.session.flashbag.get('error') %}
+                <div class="alert alert-danger alert-block"> <a class="close" data-dismiss="alert" href="#">×</a>
+                    <h4 class="alert-heading">Error!</h4>
+                    {{ flash_message }}
+                </div>
+            {% endfor %}
+            <div class="widget-box">
+                <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                    <h5>Personal-info</h5>
+                </div>
+
+                <div class="widget-content nopadding">
+
+                    {% if form.vars.errors is not empty %}
+                        <div class="alert alert-danger">
+                            <ul class="mg-b-0">
+                                {% for error in form.vars.errors %}
+                                    <li >
+                                        {{ error.message }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <form action="{{ path('admin_product_add')  }}" method="post" class="form-horizontal">
+                        {{ form_widget(form._token) }}
+
+                        <div class="control-group">
+                            <label class="control-label">Codigo</label>
+                            <div class="controls">
+                                {{ form_widget(form.code, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Categoria</label>
+                            <div class="controls">
+                                {{ form_widget(form.category, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Nombre</label>
+                            <div class="controls">
+                                {{ form_widget(form.name, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Valor Unitario</label>
+                            <div class="controls">
+                                {{ form_widget(form.value, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Cantidad</label>
+                            <div class="controls">
+                                {{ form_widget(form.stock, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                            <a href="{{ path('admin_category_list') }}" class="btn btn-primary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock  %}
+

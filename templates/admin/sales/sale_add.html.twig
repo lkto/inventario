@@ -1,0 +1,404 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="content-header">
+        <div id="breadcrumb"> <a href="#" class="tip-bottom" data-original-title="Go to Home"><i class="icon-home"></i> Gestion de productos / Ventas / nueva </a> </div>
+        <h1>agregar de ventas</h1>
+    </div>
+    <br>
+    <br>
+    <div class="container-fluid">
+
+        <div class="row-fluid">
+            <div class="span6">
+                <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <form action="#" method="get" class="form-horizontal">
+                        <div class="control-group">
+                            <label class="control-label">Cliente</label>
+                            <div class="controls">
+                                <select  id="client_change">
+                                    {% for client in client %}
+                                        <option {{ client.id }}>{{ client.identify }} | {{ client.firstName }} {{ client.lastName }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="span6">
+                <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <div class="control-group"  style="margin-left: 20px;">
+                            <h4>Identificacion : <span id="detail_identify"> </span></h4>
+                            <h4>Nombre : <span id="detail_name"> </span> </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <div class="span12" style="margin-left: 0px;">
+                 <hr style="border-top-color: #a89898;">
+             </div>
+            <div class="span12" style="margin-left: 0px;">
+                <form action="">
+                    <div class="span2">
+                        <label class="control-label">Producto</label>
+                        <div class="controls ">
+                            <select  id="product_action">
+                                {% for product in product %}
+                                    <option {{ product.id }}>{{ product.category.code }} - {{ product.code }} | {{ product.name }} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="span2">
+                        <label class="control-label">Valor Unitario</label>
+                        <div class="controls ">
+                            <h4 id="product_value_unit"></h4>
+                            <img class="product_loading" src="{{ asset('assets/img/loading.gif') }}" style="width: 30%;">
+                        </div>
+                    </div>
+                    <div class="span2">
+                        <label class="control-label">Disponibles</label>
+                        <div class="controls ">
+                            <h4 id="product_enable"></h4>
+                            <img class="product_loading" src="{{ asset('assets/img/loading.gif') }}" style="width: 30%;">
+                        </div>
+                    </div>
+
+                    <div class="span2">
+                        <label class="control-label">Cantidad</label>
+                        <div class="controls ">
+                            <input type="number" id="cantidad">
+                        </div>
+                    </div>
+
+                    <div class="span4" style="margin-top: 24px;">
+                            <button type="button" class="btn btn-success" id="btn_agregar" onclick="add_product()">Agregar</button>
+                    </div>
+
+                </form>
+            </div>
+            <div class="span12" style="margin-left: 0px;">
+                <hr style="border-top-color: #a89898;">
+            </div>
+            <div class="span12" style="margin-left: 0px;">
+                <div class="widget-box">
+                    <div class="widget-title"> <span class="icon"> <i class="icon-th"></i> </span>
+                        <h5>Detalles</h5>
+                    </div>
+                    <div class="widget-content nopadding">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Codigo del producto</th>
+                                <th>Nombre</th>
+                                <th>Valor Unitario</th>
+                                <th>Cantidad</th>
+                                <th>Total</th>
+                                <th>Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody id="body_detail">
+                            </tbody>
+                            <tfoot>
+                                <tr >
+                                    <td colspan="6" style="text-align: right;"><h4>Total : <span id="total">0</span></h4></td>
+                                </tr>
+                                <tr >
+                                    <td colspan="6" style="text-align: right;"><button class="btn btn-primary" onclick="saveSale()">Registrar venta</button></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+{% endblock %}
+
+{% block myScripts %}
+    <script>
+        var count = 1;
+        $( document ).ready(function() {
+            $(".product_loading").hide();
+            $("#save_loading").hide();
+            $("#btn_agregar").attr("disabled", true);
+            var cantidad = $("#cantidad").val();
+            if(cantidad && cantidad > 0){
+                $("#btn_agregar").attr("disabled", false);
+            }else {
+                $("#btn_agregar").attr("disabled", true);
+            }
+
+            $('#cantidad').keyup(function(e){
+                var cantidad = $("#cantidad").val();
+                console.log(cantidad);
+                if(cantidad && cantidad > 0){
+                    $("#btn_agregar").attr("disabled", false);
+                }else {
+                    $("#btn_agregar").attr("disabled", true);
+                }
+            })
+
+
+            var selectClient = $("#client_change option:selected").text();
+            var selectProduct = $("#product_action option:selected").text();
+            if(selectClient){
+                var selectRaw = selectClient.split("|");
+                loadUserInfor(selectRaw[0]);
+            }
+
+            if(selectProduct){
+                var selectRaw = selectProduct.split("|");
+                var codeProduct = selectRaw[0].split("-");
+                loadProductInfo(codeProduct[1]);
+            }
+            $("#client_change").change(function () {
+                var selectClient = $("#client_change option:selected").text();
+                if(selectClient){
+                    var selectRaw = selectClient.split("|");
+                    loadUserInfor(selectRaw[0]);
+                }
+            })
+
+            $("#product_action").change(function () {
+                var selectProduct = $("#product_action option:selected").text();
+                if(selectProduct){
+                    var selectRaw = selectProduct.split("|");
+                    var codeProduct = selectRaw[0].split("-");
+                    loadProductInfo(codeProduct[1]);
+                }
+            })
+
+        });
+
+        function loadUserInfor(identify){
+            var url = "{{ path('admin_sale_get_clients') }}";
+
+            $.ajax({
+                method: "POST",
+                url: url,
+                data: { identify: identify }
+            })
+            // .beforeSend(function () {
+            //     $(".product_loading").show();
+            //  })
+            .done(function( msg ) {
+                $("#detail_identify").html(msg.identify);
+                $("#detail_name").html(msg.name);
+                // $(".product_loading").hide();
+            }).error(function (err) {
+                console.log(err);
+            })
+        }
+
+        function loadProductInfo(identify) {
+            var url = "{{ path('admin_sale_get_products') }}";
+
+            $.ajax({
+                method: "POST",
+                url: url,
+                data: { identify: identify },
+                beforeSend: function () {
+                    $(".product_loading").show();
+                }
+            })
+            // .beforeSend(function () {
+            //     $(".product_loading").show();
+            // })
+            .done(function( msg ) {
+                $("#product_value_unit").html(msg.value);
+                $("#product_enable").html(msg.stock);
+                $(".product_loading").hide();
+            }).error(function (err) {
+            console.log(err);
+            })
+        }
+
+        function add_product() {
+            var selectProduct = $("#product_action option:selected").text();
+            var selectRaw = selectProduct.split("|");
+            var name = selectRaw[1];
+            var code = selectRaw[0];
+            var codeProduct = selectRaw[0].split("-");
+            var valorUnit = $("#product_value_unit").html();
+            var cantidad = parseInt($("#cantidad").val());
+            var disponibles = parseInt($("#product_enable").html());
+            console.log(valorUnit);
+            console.log(cantidad * valorUnit);
+            var total = cantidad * valorUnit;
+            if(!existProduct())
+            {
+                if(cantidad > disponibles){
+                    $.gritter.add({
+                        title:	'¡OJO!',
+                        text:	'Estas sobrepasando la cantidad disponible para este producto.',
+                        image: 	'assets/img/demo/envelope.png',
+                        sticky: false
+                    });
+                }else{
+                    $("#body_detail").append("<tr class='odd gradeX' id='pr" + count + "' >" +
+                        "<td>"+ code +"</td>" +
+                        "<td>"+ name +"</td>" +
+                        "<td>"+ valorUnit +"</td>"+
+                        "<td>"+ cantidad +"</td>" +
+                        "<td class='totalCount'>"+ total +"</td>" +
+                        "<td>"+ "<button type='button' onclick='deleteRow(pr" + count + " )' class='btn btn-danger'>" + "Eliminar" + "</button> " +"</td>" +
+                        "</tr>");
+
+                    count += 1;
+                    calculateTotal();
+                }
+            }
+
+        }
+
+        function deleteRow(code) {
+
+            $(code).remove();
+            calculateTotal()
+        }
+        
+        function calculateTotal() {
+            var value = 0;
+            $("#body_detail tr").each(function () {
+                value = parseInt(this.cells[4].textContent ) + value;
+              // console.log(this.cells[4].textContent)
+            })
+
+            $("#total").html(value);
+                // console.log(this.cells);
+
+        }
+
+        function existProduct() {
+            var selectProduct = $("#product_action option:selected").text();
+            var selectRaw = selectProduct.split("|");
+            var code = selectRaw[0];
+            var valorUnit = $("#product_value_unit").html();
+            var cantidad = parseInt($("#cantidad").val());
+            var msg = false;
+            var disponibles = parseInt($("#product_enable").html());
+            var noEnable = 0;
+            var availables = 0;
+
+            console.log($("#body_detail tr"));
+            $("#body_detail tr").each(function () {
+                codePro = this.cells[0].textContent ;
+                if(codePro == code){
+                    var cantidadActual = parseInt(this.cells[3].textContent);
+                    cantidad = parseInt(this.cells[3].textContent) + cantidad;
+                    availables = disponibles - cantidadActual;
+                    console.log(availables);
+                    if(cantidad > disponibles){
+                        noEnable += 1;
+                        msg = true;
+                    }else {
+                        this.cells[3].textContent = cantidad;
+                        var total = cantidad * valorUnit;
+                        this.cells[4].textContent = total;
+                        calculateTotal();
+                        msg = true;
+                    }
+
+                }
+            })
+
+            if (noEnable > 0){
+                $.gritter.add({
+                    title:	'¡OJO!',
+                    text:	'Estas sobrepasando la cantidad disponible para este producto. solo dispones de : ' + availables ,
+                    image: 	'assets/img/demo/envelope.png',
+                    sticky: false
+                });
+            }
+
+            noEnable = 0;
+
+            return msg;
+        }
+
+        function getDetail() {
+            var detail = [];
+            $("#body_detail tr").each(function () {
+               var  codePro = this.cells[0].textContent ;
+               var codeProdArray = codePro.split("-");
+               var product = codeProdArray[1];
+               var valueUnit = parseInt(this.cells[2].textContent );
+               var count = parseInt(this.cells[3].textContent );
+               var total = parseInt(this.cells[4].textContent );
+               var data = {
+                   "product" : product,
+                   "valueUnit" : valueUnit,
+                   "count" : count,
+                   "total" : total,
+               };
+               detail.push(data);
+            });
+
+            console.log(detail);
+            return detail;
+        }
+
+        function saveSale() {
+            var detail = getDetail();
+            var identify = 0;
+            var selectClient = $("#client_change option:selected").text();
+            if(selectClient){
+                var selectRaw = selectClient.split("|");
+                identify = selectRaw[0];
+
+            }
+            var data = [
+                {"user" : identify},
+                {"detail" : detail }
+            ];
+
+            var url = "{{ path('admin_sale_save') }}";
+
+            $.ajax({
+                method: "POST",
+                url: url,
+                data: { data: data },
+                // beforeSend: function () {
+                //     $("#save_loading").show();
+                // }
+            })
+                .done(function( msg ) {
+                    if (msg.id) {
+                        var path = "{{ path('admin_sale_detail', { 'id': "~id~" }) }}";
+                        var split = path.split("/");
+                        var url = "";
+                        for(var i = 1; i < split.length - 1; i+=1){
+                            url = url + "/" + split[i];
+                        }
+                        url = url + "/" + msg.id;
+                        window.location.pathname = url;
+                    }else{
+                        $.gritter.add({
+                            title:	'¡ERROR!',
+                            text:	'A ocurrido un error al intentar generar la factura intente nuevamente ' ,
+                            image: 	'assets/img/demo/envelope.png',
+                            sticky: false
+                        });
+                    }
+                    $("#save_loading").hide();
+
+                }).error(function (err) {
+                console.log(err);
+            })
+
+
+        }
+    </script>
+{% endblock %}

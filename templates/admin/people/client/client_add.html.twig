@@ -53,7 +53,20 @@
                         </div>
 
                         <div class="control-group">
-                            <label class="control-label">Checkboxes</label>
+                            <label class="control-label">Direccion</label>
+                            <div class="controls">
+                                {{ form_widget(form.direction, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label">Telefono Celular</label>
+                            <div class="controls">
+                                {{ form_widget(form.phone, {'attr': {'class': 'span11'}}) }}
+                            </div>
+                        </div>
+
+                        <div class="control-group">
                             <div class="controls">
                                 <label>
                                     {{ form_widget(form.enabled) }}
