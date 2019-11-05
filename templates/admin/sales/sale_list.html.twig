@@ -36,12 +36,12 @@
                             <tbody>
                             {% for sale in sale %}
                                 <tr class="gradeX">
-                                    <td> {{ product.code }} </td>
-                                    <td> {{ product.user.email }} </td>
-                                    <td> {{ product.client.firstName }} {{ product.client.lastName }}  </td>
+                                    <td> {{ sale.code }} </td>
+                                    <td> {{ sale.user.email }} </td>
+                                    <td> {{ sale.client.firstName }} {{ sale.client.lastName }}  </td>
                                     <td class="taskOptions">
-                                        <a class="btn btn-info" href="{{ path('admin_product_edit', {id: product.id}) }}">Modificar</a>
-                                        <a class="btn btn-info" href="{{ path('admin_product_edit', {id: product.id}) }}">Ver</a>
+                                        <a class="btn btn-info" href="{{ path('admin_sale_edit', {id: sale.id}) }}">Modificar</a>
+                                        <a class="btn btn-info" href="{{ path('admin_sale_detail', {id: sale.id}) }}">Ver</a>
                                     </td>
                                 </tr>
                             {% else %}

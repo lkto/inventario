@@ -11,6 +11,8 @@ use App\Entity\Client;
 use App\Entity\Product;
 use App\Entity\SaleDetails;
 use App\Entity\Sales;
+use App\Report\ExcelExport;
+use App\Services\PrintInvoice;
 use http\Client\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,6 +31,7 @@ class SaleController extends Controller
     public function saleList()
     {
         $sale = $this->getDoctrine()->getRepository(Sales::class)->findAll();
+
         return  $this->render('admin/sales/sale_list.html.twig', [
             'sale' => $sale
         ]);
@@ -107,7 +110,6 @@ class SaleController extends Controller
             $em->flush();
 
             foreach ($data[1]['detail'] as $detail){
-                dump($detail);
                 $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['code' => trim($detail['product'])]);
                 $saleDetail = new SaleDetails();
                 $saleDetail->setProduct($product);
@@ -116,6 +118,8 @@ class SaleController extends Controller
                 $saleDetail->setValueUnit($detail['valueUnit']);
                 $saleDetail->setValueTotal($detail['total']);
 
+                $product->setStock($product->getStock() - $detail['count']);
+                $em->persist($product);
                 $em->persist($saleDetail);
             }
 
@@ -136,6 +140,72 @@ class SaleController extends Controller
 
         return $array;
     }
+
+    /**
+     * @Route("/editSale/{id}", name="admin_sale_edit")
+     */
+    public function editSale(Request $request, $id)
+    {
+        $client = $this->getDoctrine()->getRepository(Client::class)->findBy(['enabled' => true]);
+        $product = $this->getDoctrine()->getRepository(Product::class)->getEnableProduct();
+        $sale = $this->getDoctrine()->getRepository(Sales::class)->findOneBy(['id' => $id]);
+        return  $this->render('admin/sales/sale_edit.html.twig', [
+            'client' => $client,
+            'product' => $product,
+            "sale" => $sale
+        ]);
+    }
+
+    /**
+     * @Route("/saveEditSale", name="admin_edit_sale_save")
+     */
+    public function saveEditSale(Request $request)
+    {
+        $data = $request->query->get('data');
+        $em = $this->getDoctrine()->getManager();
+        if($data[0]['user']){
+            $client = $data[0]['user'];
+            $client = $this->getDoctrine()->getRepository(Client::class)->findOneBy(['identify' => $client]);
+            $code = $this->generateCode();
+            $sale = $this->getDoctrine()->getRepository(Sales::class)->findOneBy(['id' => $data[2]['sale']]);
+
+            foreach ( $sale->getSaleDetails() as $detail){
+                $sale->removeSaleDetails($detail);
+            }
+            $em->persist($sale);
+            $em->flush();
+            foreach ($data[1]['detail'] as $detail){
+                $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['code' => trim($detail['product'])]);
+                $saleDetail = new SaleDetails();
+                $saleDetail->setProduct($product);
+                $saleDetail->setSale($sale);
+                $saleDetail->setCount($detail['count']);
+                $saleDetail->setValueUnit($detail['valueUnit']);
+                $saleDetail->setValueTotal($detail['total']);
+
+                $product->setStock($product->getStock() - $detail['count']);
+                $em->persist($product);
+                $em->persist($saleDetail);
+            }
+
+            $em->flush();
+
+            $saleInfo = [
+                'id' => $sale->getId()
+            ];
+
+
+
+        }else {
+            $saleInfo = [];
+        }
+
+        $array = new \Symfony\Component\HttpFoundation\Response(json_encode( $saleInfo) );
+        $array->headers->set('Content-Type', 'application/json');
+
+        return $array;
+    }
+
     /**
      * @Route("/detail/{id}", name="admin_sale_detail")
      */
@@ -148,20 +218,14 @@ class SaleController extends Controller
     /**
      * @Route("/print/{id}", name="admin_sale_print")
      */
-    public function salePrint(Request $request, $id)
+    public function salePrint(Request $request, $id, PrintInvoice $invoice, ExcelExport $excelExport)
     {
         $sale = $this->getDoctrine()->getRepository(Sales::class)->findOneBy(['id' => $id]);
-        $pdfGenerator = $this->get('spraed.pdf.generator');
-        $html = $this->renderView('admin/sales/sale_print.html.twig', ['sale' => $sale]);
-        return new \Symfony\Component\HttpFoundation\Response($pdfGenerator->generatePDF($html),
-            200,
-            array(
-                'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'inline; filename="out.pdf"'
-            )
-        );
+        $generateExcel = $invoice->generateExcel($sale);
+        $title = "Venta numero ". $sale->getCode();
+        $writer = $excelExport->export($generateExcel['data'],$generateExcel['key'], $title );
 
-//        return $this->render('admin/sales/sale_print.html.twig', ['sale' => $sale]);
+        return $excelExport->createResponseFromWriter($writer, $title);
     }
 
     public function generateCode(){
