@@ -27,6 +27,7 @@
                         <table class="table table-bordered data-table">
                             <thead>
                             <tr>
+                                <th>Fecha</th>
                                 <th>Codigo</th>
                                 <th>Vendido por</th>
                                 <th>Vendido a</th>
@@ -36,6 +37,7 @@
                             <tbody>
                             {% for sale in sale %}
                                 <tr class="gradeX">
+                                    <td> {{ sale.date | date('Y-m-d H:i:s') }} </td>
                                     <td> {{ sale.code }} </td>
                                     <td> {{ sale.user.email }} </td>
                                     <td> {{ sale.client.firstName }} {{ sale.client.lastName }}  </td>

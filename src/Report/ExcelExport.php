@@ -153,7 +153,7 @@ class ExcelExport
         //SHEET HEADINGS
         $this->activeWorksheet->setCellValue('C2', $this->properties['application_name']);
         $this->activeWorksheet->setCellValue('C3', $name);
-        $this->activeWorksheet->setCellValue('C4', 'Date ' . date("m-d-Y"));
+        $this->activeWorksheet->setCellValue('C4', 'Fecha ' . date("m-d-Y"));
         //SHEET DATA
         $this->firstRow = 6;
         $this->firstCol = 2;

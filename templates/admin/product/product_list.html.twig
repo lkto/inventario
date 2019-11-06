@@ -31,6 +31,7 @@
                                 <th>Categoria</th>
                                 <th>Nombre</th>
                                 <th>Valor unitario</th>
+                                <th>Iva</th>
                                 <th>Cantidad</th>
                                 <th>Acciones</th>
                             </tr>
@@ -42,6 +43,7 @@
                                     <td> {{ product.category.name }} </td>
                                     <td> {{ product.name }} </td>
                                     <td> {{ product.value }} </td>
+                                    <td> {{ product.iva }} </td>
                                     <td> {{ product.stock }} </td>
                                     <td class="taskOptions">
                                         <a class="btn btn-info" href="{{ path('admin_product_edit', {id: product.id}) }}">Modificar</a>

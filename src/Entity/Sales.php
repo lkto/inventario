@@ -51,9 +51,20 @@ class Sales
      */
     private $saleDetails;
 
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="date", type="datetime")
+     */
+    private $date;
+
     public function __construct()
     {
         $this->saleDetails = new ArrayCollection();
+
+        $timeZone = new \DateTimeZone('America/Bogota');
+        $date = new \DateTime();
+        $date->setTimezone($timeZone);
+        $this->date = $date;
     }
 
     /**
@@ -140,7 +151,21 @@ class Sales
         return $this;
     }
 
+    /**
+     * @return \DateTime
+     */
+    public function getDate(): \DateTime
+    {
+        return $this->date;
+    }
 
+    /**
+     * @param \DateTime $date
+     */
+    public function setDate(\DateTime $date)
+    {
+        $this->date = $date;
+    }
 
 
 }

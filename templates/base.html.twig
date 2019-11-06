@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <title>{% block title %}Admin{% endblock %}</title>
+        <title>{% block title %}Administrador{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
         <meta name="msapplication-tap-highlight" content="no">
         <meta charset="UTF-8">
@@ -23,7 +23,7 @@
             <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 
         {% endblock %}
-        <link rel="shortcut icon" href="{{ asset('favicon/favicon.ico') }}">
+        <link rel="shortcut icon" href="{{ asset('favicon/icon.ico') }}">
     </head>
     <body>
 
@@ -59,11 +59,10 @@
                     </ul>
                 </li>
                 <li> <a href="{{ path('admin_sale_list') }}"><i class="icon icon-inbox"></i> <span>Ventas</span></a> </li>
-                <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Reportes</span> <span class="label label-important">3</span></a>
+                <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Reportes</span> <span class="label label-important">2</span></a>
                     <ul>
-                        <li><a href="form-common.html">Basic Form</a></li>
-                        <li><a href="form-validation.html">Form with Validation</a></li>
-                        <li><a href="form-wizard.html">Form with Wizard</a></li>
+                        <li><a href="{{ path('admin_sale_report') }}">Reporte de ventas por cliente</a></li>
+                        <li><a href="{{ path('admin_product_report') }}">Reporte de productos</a></li>
                     </ul>
                 </li>
             </ul>

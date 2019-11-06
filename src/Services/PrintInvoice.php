@@ -27,20 +27,23 @@ class PrintInvoice
             $excel[$contador]['b1'] = $detail->getCount();
             $excel[$contador]['c1'] = $detail->getProduct()->getName();
             $excel[$contador]['d1'] = $detail->getValueUnit();
-            $excel[$contador]['e1'] = $total;
+            $excel[$contador]['e1'] = $detail->getProduct()->getIva();
+            $excel[$contador]['f1'] = $total;
             $contador++;
         }
 
         $excel[$contador]['b1'] = "";
-        $excel[$contador]['c1'] = "";
-        $excel[$contador]['d1'] = "Total";
-        $excel[$contador]['e1'] = $vTotal;
+        $excel[$contador]['c1'] = "Fecha";
+        $excel[$contador]['d1'] = $sale->getDate()->format('Y-m-d H:i:s');
+        $excel[$contador]['e1'] = "Total";
+        $excel[$contador]['f1'] = $vTotal;
 
         $keys = [
             "b1" => "Cantidad",
             "c1" => "Descripción",
             "d1" => "Valor Unitario",
-            "e1" => "Valor Total"
+            "e1" => "Iva",
+            "f1" => "Valor Total"
         ];
         $response= array();
         $response['data']=$excel;

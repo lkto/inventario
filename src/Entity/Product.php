@@ -67,6 +67,15 @@ class Product
     private $value;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="iva", type="integer")
+     *
+     * @Assert\NotBlank()
+     */
+    private $iva;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\SaleDetails", mappedBy="product", cascade={"persist"}, orphanRemoval=true)
      */
     private $saleDetails;
@@ -191,5 +200,23 @@ class Product
 
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getIva(): int
+    {
+        return $this->iva;
+    }
+
+    /**
+     * @param int $iva
+     */
+    public function setIva(int $iva)
+    {
+        $this->iva = $iva;
+    }
+
+
 
 }

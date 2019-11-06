@@ -37,6 +37,10 @@ class ProductType extends AbstractType
                 'label' => false,
                 'required'  =>  true
             ])
+            ->add('iva', IntegerType::class, [
+                'label' => false,
+                'required'  =>  true
+            ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
